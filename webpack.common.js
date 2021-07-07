@@ -34,7 +34,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.m?js$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader",
@@ -46,4 +46,11 @@ module.exports = {
     ],
   },
   plugins: [new MiniCssExtractPlugin()],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+        '@': path.resolve(__dirname, 'src/'),
+        '@components':path.resolve(__dirname,'src/components/')
+    }
+},
 };
