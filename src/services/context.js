@@ -1,21 +1,16 @@
-import React,{useState,useContext} from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { authenticationService } from ".";
 
 export const AuthContext = React.createContext();
 
 export const ProvideAuth = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  const signin = ({ name:username, password }) => {
-      console.log('context signin called with',username,password);
-    return authenticationService
-      .login(username, password)
-      .then((user) => {setUser(user);console.log('user context',user);return user;}).catch((error) =>{
-        //do something with actual error here
-        console.log(error)
-        return  new Error('login failed')
-      }
-      )
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('currentUser'))||null);
+ 
+  const signin = ({ name: username, password }) => {
+    return authenticationService.login(username, password).then((user) => {
+      setUser(user);
+      return user;
+    });
   };
 
   const signout = () => {
@@ -33,9 +28,9 @@ export const ProvideAuth = ({ children }) => {
 };
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-      throw new Error("useAuth can only be used inside AuthProvider");
-    }
-    return context;
-  };
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth can only be used inside AuthProvider");
+  }
+  return context;
+};

@@ -9,23 +9,32 @@ const Login = () => {
   const { signin, signout, user } = useAuth();
 
   const [state, setState] = useState({ name: "", password: "" });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onChangeHandler = ({ target: { value, name } }) =>
+  const onChangeHandler = ({ target: { value, name } }) => {
+    setError("");
     setState((prevState) => ({ ...prevState, [name]: value }));
+  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    if (state.name === "" || state.password === "") {
+      setError("Username and Password are required!!");
+      return;
+    }
     setLoading(true);
-    console.log(state);
     signin(state)
       .then((user) => {
         const { from } = location.state || {
-          from: { pathname: "/" },
+          from: { pathname: "/dashboard" },
         };
         history.push(from);
       })
-      .catch();
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
   };
   return (
     <form
@@ -33,32 +42,43 @@ const Login = () => {
       onSubmit={onSubmitHandler}
     >
       <div className="border-2 border-gray-400 shadow-md p-4 space-y-4">
+        <div
+          role="alert"
+          className={`p-4 bg-red-200 text-red-500 ${
+            error === "" ? "hidden" : "block"
+          }`}
+        >
+          {error}
+        </div>
         <label htmlFor="loginName" className="block">
           Username
           <input
-            className="form-field"
+            className={error === "" ? "form-field" : "form-field--error"}
             type="text"
             placeholder="User name"
             id="loginName"
             name="name"
             onChange={onChangeHandler}
             value={state.name}
+            aria-invalid={error !== ""}
+            disabled={loading}
           />
         </label>
         <label htmlFor="loginPassword" className="block">
           Password
           <input
-            className="form-field"
+            className={error === "" ? "form-field" : "form-field--error"}
             type="password"
             placeholder="password"
             id="loginPassword"
             name="password"
             onChange={onChangeHandler}
             value={state.password}
+            disabled={loading}
           />
         </label>
-        <button className="btn" type="submit">
-          Submit
+        <button className="btn" type="submit" disabled={loading}>
+          {loading ? "Submitting.." : "Submit"}
         </button>
       </div>
     </form>

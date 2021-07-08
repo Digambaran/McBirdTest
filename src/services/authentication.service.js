@@ -15,7 +15,6 @@ export const authenticationService = {
 };
 
 function login(username, password) {
-    console.log('auth login called with',username,password);
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

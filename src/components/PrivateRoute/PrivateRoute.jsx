@@ -4,7 +4,6 @@ import { useAuth } from "@services";
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const { user } = useAuth();
-  console.log("private route", user);
   return (
     <Route
       {...rest}

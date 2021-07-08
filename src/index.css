@@ -22,4 +22,7 @@ code {
   .form-field {
     @apply border-2 border-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-blue-400 p-4 w-full shadow-sm;
   }
+  .form-field--error {
+    @apply border-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-blue-400 p-4 w-full shadow-sm border-red-500 ring-red-400 ring-1 ring-offset-1;
+  }
 }
