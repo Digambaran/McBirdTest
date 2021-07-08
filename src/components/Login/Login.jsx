@@ -1,12 +1,11 @@
 import { useAuth } from "@services";
 import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-// import "./Login.css";
 
 const Login = () => {
   const history = useHistory();
   const location = useLocation();
-  const { signin, signout, user } = useAuth();
+  const { signin } = useAuth();
 
   const [state, setState] = useState({ name: "", password: "" });
   const [error, setError] = useState("");
@@ -19,13 +18,17 @@ const Login = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
+
+    //handle empty fields
     if (state.name === "" || state.password === "") {
       setError("Username and Password are required!!");
       return;
     }
+
+    //send filled data
     setLoading(true);
     signin(state)
-      .then((user) => {
+      .then(() => {
         const { from } = location.state || {
           from: { pathname: "/dashboard" },
         };
@@ -41,6 +44,7 @@ const Login = () => {
       className="w-1/3 mx-auto my-auto min-w-[360px]"
       onSubmit={onSubmitHandler}
     >
+      {/* to display error msg */}
       <div className="border-2 border-gray-400 shadow-md p-4 space-y-4">
         <div
           role="alert"
@@ -50,6 +54,7 @@ const Login = () => {
         >
           {error}
         </div>
+
         <label htmlFor="loginName" className="block">
           Username
           <input

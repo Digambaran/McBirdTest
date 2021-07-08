@@ -1,7 +1,8 @@
 export function configureFakeBackend() {
     let users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
     let realFetch = window.fetch;
-    window.realFetch=realFetch;
+    window.realFetch=realFetch;//to make real fetch available to Dashboard component.
+    
     window.fetch = function (url, opts) {
         const isLoggedIn = opts.headers['Authorization'] === 'Bearer fake-jwt-token';
 
