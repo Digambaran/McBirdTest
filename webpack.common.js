@@ -47,10 +47,17 @@ module.exports = {
   },
   plugins: [new MiniCssExtractPlugin()],
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"],
     alias: {
-        '@': path.resolve(__dirname, 'src/'),
-        '@components':path.resolve(__dirname,'src/components/')
-    }
-},
+      "@helpers": path.resolve(__dirname, "src/helpers/"),
+      "@components": path.resolve(__dirname, "src/components/"),
+      "@services":path.resolve(__dirname,"src/services/")
+    },
+  },
+  externals: {
+    // global app config object
+    config: JSON.stringify({
+      apiUrl: "http://localhost:4000",
+    }),
+  },
 };

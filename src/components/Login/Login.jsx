@@ -1,19 +1,31 @@
+import { useAuth } from "@services";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 // import "./Login.css";
 
-const Login = ({ setLoggedIn }) => {
+const Login = () => {
   const history = useHistory();
+  const location = useLocation();
+  const { signin, signout, user } = useAuth();
+
   const [state, setState] = useState({ name: "", password: "" });
   const [loading, setLoading] = useState(false);
 
   const onChangeHandler = ({ target: { value, name } }) =>
     setState((prevState) => ({ ...prevState, [name]: value }));
-  const onSubmitHandler = () => {
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      history.push("/dashboard");
-    }, 2000);
+    console.log(state);
+    signin(state)
+      .then((user) => {
+        const { from } = location.state || {
+          from: { pathname: "/" },
+        };
+        history.push(from);
+      })
+      .catch();
   };
   return (
     <form
@@ -21,27 +33,31 @@ const Login = ({ setLoggedIn }) => {
       onSubmit={onSubmitHandler}
     >
       <div className="border-2 border-gray-400 shadow-md p-4 space-y-4">
-        <label for="loginName">Username</label>
-        <input
-          className="form-field"
-          type="text"
-          placeholder="User name"
-          id="loginName"
-          name="name"
-          onChange={onChangeHandler}
-          value={state.name}
-        />
-        <label for="loginPassword">Password</label>
-        <input
-          className="form-field"
-          type="password"
-          placeholder="password"
-          id="loginPassword"
-          name="password"
-          onChange={onChangeHandler}
-          value={state.password}
-        />
-        <button className="btn" type="button" onClick={onSubmitHandler}>
+        <label htmlFor="loginName" className="block">
+          Username
+          <input
+            className="form-field"
+            type="text"
+            placeholder="User name"
+            id="loginName"
+            name="name"
+            onChange={onChangeHandler}
+            value={state.name}
+          />
+        </label>
+        <label htmlFor="loginPassword" className="block">
+          Password
+          <input
+            className="form-field"
+            type="password"
+            placeholder="password"
+            id="loginPassword"
+            name="password"
+            onChange={onChangeHandler}
+            value={state.password}
+          />
+        </label>
+        <button className="btn" type="submit">
           Submit
         </button>
       </div>

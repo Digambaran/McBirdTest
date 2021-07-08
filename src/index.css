@@ -17,7 +17,7 @@ code {
 
 @layer components {
   .btn {
-    @apply bg-blue-400 dark:bg-gray-600 px-4 py-2 w-32 text-white transform transition-transform ease-in-out hover:scale-105 hover:shadow-lg active:scale-95 active:shadow-sm shadow-sm;
+    @apply bg-blue-400  px-4 py-2 w-32 text-white transform transition-transform ease-in-out hover:scale-105 hover:shadow-lg active:scale-95 active:shadow-sm shadow-sm;
   }
   .form-field {
     @apply border-2 border-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-blue-400 p-4 w-full shadow-sm;
